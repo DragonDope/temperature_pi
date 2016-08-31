@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 def temperature(delete_temp, save_log, save_rrd, output):
-        """	Creator: DragonDope		Date: 2015-04-07
+        """	Creator: DragonDope		Date: 2016-08-31
 
 	Dies ist ein Programm/Modul welches Temperaturwerte mit dem Tool "digitemp_DS9097" einlist.
         Anschließend werden die Werte in eine *.log Datei und in einer rrd-Datenbank gespeichert.
@@ -33,6 +33,8 @@ def temperature(delete_temp, save_log, save_rrd, output):
 	name_digitemp_config = "digitemp.conf"			# Dateiname für dei Configdatei für DigiTemp
 
 	sensor = ("Kellerraum", "Dachboden", "Rückseite", "Eingangstür", "Wohnzimmer")        	# Namen für Sensoren (Anzahl der Namen entspricht Anzahl der Sensoren) (Sensor0, Sensor2, ...)
+	
+	sensor_anzahl = len(sensor)							#Anzahl der Sensoren;
 
         #Pfad und Dateinamen Zusammenstellung
         #####################################
@@ -54,7 +56,7 @@ def temperature(delete_temp, save_log, save_rrd, output):
 	file_temp.close()					# Tempdatei schließen
 	if delete_temp: os.remove(path_tmp_file) 		# Tempdatei löschen
 	
-	if len(list) != len(sensor):				# Vergleich: Anzahl der Zeilen in der Temp-Datei mit der Anzahl vergebener Sensornamen
+	if len(list) != sensor_anzahl:				# Vergleich: Anzahl der Zeilen in der Temp-Datei mit der Anzahl vergebener Sensornamen
 		print "Warnung!: Anzahl der vergebenen Sensornamen überprüfen\n******************************************************"
 	
 	if save_log:
@@ -65,27 +67,29 @@ def temperature(delete_temp, save_log, save_rrd, output):
 	#Auslesen der Temperaturen aus der Liste
 	######################################
 	temperatur = {}									# Set erstellen
-	for i in range(len(sensor)-1,-1,-1):						# Temperaturen auslesen
+	for i in range(sensor_anzahl-1,-1,-1):						# Temperaturen auslesen
 		line = list[len(list)-i-1]						# Zeile des entsprechenden Sensors lesen
 		n = line.rfind(":")							# Stelle des ausgewählten Zeichens finden
-		temperatur[len(sensor)-i-1] = line[n+2:-1]				# Temperatur in Set speichern
-		temperatur[len(sensor)-i-1] = float(temperatur[len(sensor)-i-1])	# Sting in in float konvertieren
+		temperatur[sensor_anzahl-i-1] = line[n+2:-1]				# Temperatur in Set speichern
+		temperatur[sensor_anzahl-i-1] = float(temperatur[sensor_anzahl-i-1])	# Sting in in float konvertieren
 	
 	if output:									# Temperaturausgabe auf Konsole?
-		for i in range(0, len(sensor)):						# Temperaturen von allen Sensoren ausgeben
+		for i in range(0, sensor_anzahl):					# Temperaturen von allen Sensoren ausgeben
 			print "%s %.1f °C" %(sensor[i], temperatur[i])			# Temperaturausgabe
 	
-	
-		#hier muss noch ein for schleigen eingefügt werden, wenn überprüft wurde, das alles funktioniert
-		#for i in range(0,len(sensor)):
-		#	rrdtool.update( path_rrd_database,"--template", %s %(sensor[i]), "N:%.2f" %(temperatur[i])	)
-	if save_rrd:	
-		rrdtool.update( path_rrd_database,"N:%.1f:%.1f:%.1f:%.1f:%.1f:NaN" %(temperatur[0],temperatur[1],temperatur[2],temperatur[3],temperatur[4])	)
-		#		"--template", "Sensor1","N:%.2f" %(temperatur[1]),
-		#		"--template", "Sensor2","N:%.2f" %(temperatur[2]),
-		#		"--template", "Sensor3","N:%.2f" %(temperatur[3])	)
-		#rrdtool.update( path_rrd_database,"--template", "Sensor3","N:%.2f" %(temperatur[3])  )
-
+	if save_rrd:
+		if sensor_anzahl == 1:
+			rrdtool.update(path_rrd_database,"N:%.1f:NaN:NaN:NaN:NaN:NaN" %(temperatur[0]))
+		if sensor_anzahl == 2:
+			rrdtool.update(path_rrd_database,"N:%.1f:%.1f:NaN:NaN:NaN:NaN" %(temperatur[0],temperatur[1]))
+		if sensor_anzahl == 3:
+			rrdtool.update(path_rrd_database,"N:%.1f:%.1f:%.1f:NaN:NaN:NaN" %(temperatur[0],temperatur[1],temperatur[2]))
+		if sensor_anzahl == 4:
+			rrdtool.update(path_rrd_database,"N:%.1f:%.1f:%.1f:%.1f:NaN:NaN" %(temperatur[0],temperatur[1],temperatur[2],temperatur[3]))
+		if sensor_anzahl == 5:
+			rrdtool.update(path_rrd_database,"N:%.1f:%.1f:%.1f:%.1f:%.1f:NaN" %(temperatur[0],temperatur[1],temperatur[2],temperatur[3],temperatur[4]))
+		if sensor_anzahl == 6:		
+			rrdtool.update(path_rrd_database,"N:%.1f:%.1f:%.1f:%.1f:%.1f:%.1f" %(temperatur[0],temperatur[1],temperatur[2],temperatur[3],temperatur[4],temperatur[5]))
 
 
 #Codeblock bei direktem aufrufen der Datei
