@@ -1,0 +1,26 @@
+GPIO Belegung zum Betreiben des Displays
+########################################
+
+-> Die Einstellungen müssen in der Datei "display" durchgeführt werden
+
+Anschluss an 26 Pin Raspberry mit Adapter auf RJ45:
+---------------------------------------------------	
+(BOARD)
+	display_RS = 13			# Pin für RS (Befehlsregister/Datenregister)
+	display_E  = 12			# Pin für Enable (Takt)
+	display_D4 = 11			# Pin für Datenleitung 4
+	display_D5 = 10			# Pin für Datenleitung 5
+	display_D6 = 8			# Pin für Datenleitung 6
+	display_D7 = 7			# Pin für Datenleitung 7
+
+
+Anschluss an 40 Pin Raspberry mit spezieller Platine
+-----------------------------------------------------
+(BOARD)
+	display_RS = 21			# Pin für RS (Befehlsregister/Datenregister)
+	display_E  = 24			# Pin für Enable (Takt)
+	display_D4 = 23			# Pin für Datenleitung 4
+	display_D5 = 26			# Pin für Datenleitung 5
+	display_D6 = 29			# Pin für Datenleitung 6
+	display_D7 = 31			# Pin für Datenleitung 7
+
