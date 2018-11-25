@@ -20,7 +20,7 @@ def ssh_lastvalue():
 	datum = time.strftime("%d-%m-%Y", raw_time)
 	zeit = time.strftime("%H:%M",raw_time)
 
-	print 	datum,"\n",zeit,"\n",info["ds[Sensor0].last_ds"],"\n",info["ds[Sensor1].last_ds"],"\n",info["ds[Sensor2].last_ds"],"\n",info["ds[Sensor3].last_ds"],"\n",info["ds[Sensor4].last_ds"],"\n",info["ds[Sensor5].last_ds"]
+	print 	(datum,"\n",zeit,"\n",info["ds[Sensor0].last_ds"],"\n",info["ds[Sensor1].last_ds"],"\n",info["ds[Sensor2].last_ds"],"\n",info["ds[Sensor3].last_ds"],"\n",info["ds[Sensor4].last_ds"],"\n",info["ds[Sensor5].last_ds"])
 
 
 #Codeblock bei direktem aufrufen der Datei

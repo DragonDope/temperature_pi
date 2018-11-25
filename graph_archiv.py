@@ -11,7 +11,7 @@ def create_graph(year):
 	Die Diagramme werden in den Ordner des Webservers gespeichert
 	"""
 	import rrdtool
-	import time
+	#import time
 	import os.path
 
 	#Einstellung
@@ -35,7 +35,7 @@ def create_graph(year):
 	plot_year_temp3 = "jahr_" + year + "_temp3.png"
 	plot_year_temp4 = "jahr_" + year + "_temp4.png"
 
-	date = time.strftime("%d-%m-%Y")
+	#date = time.strftime("%d-%m-%Y")
 	#---------------------------------------------------------
 
 	#Monatsdiagramm
